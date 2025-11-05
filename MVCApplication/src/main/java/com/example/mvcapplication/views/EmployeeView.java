@@ -3,9 +3,9 @@ package com.example.mvcapplication.views;
 
 import com.example.mvcapplication.controllers.EmployeeController;
 import com.example.mvcapplication.models.Employee;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class EmployeeView extends VBox {
@@ -15,12 +15,31 @@ public class EmployeeView extends VBox {
     public EmployeeView(EmployeeController controller) {
         this.controller = controller;
         this.tableView = new TableView<>();
+        this.createSearchBar();
         this.createTable();
         this.getChildren().add(tableView);
         this.bindTableData();
+
+    }
+    private void createSearchBar(){
+        //label
+        Label searchlabel = new Label("search bar");
+        this.getChildren().add(searchlabel);
+        //TextField
+        TextField searchTextField = new TextField();
+        this.getChildren().add(searchTextField);
+        //Button
+
+        Button searchBtn = new Button("Search");
+        HBox searchbox = new HBox(10);
+        searchbox.getChildren().addAll(searchlabel,searchTextField, searchBtn);
+        this.getChildren().add(searchbox);
     }
 
+
     private void createTable() {
+        TableColumn<Employee, Integer> idCol = new TableColumn<>("Id");
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         TableColumn<Employee, String> firstNameCol = new TableColumn<>("First Name");
         firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 
@@ -29,8 +48,10 @@ public class EmployeeView extends VBox {
 
         TableColumn<Employee, Double> salaryCol = new TableColumn<>("Salary");
         salaryCol.setCellValueFactory(new PropertyValueFactory<>("salary"));
+        TableColumn<Employee, Integer> departementIdCol = new TableColumn<>("Departement Id");
+        departementIdCol.setCellValueFactory(new PropertyValueFactory<>("departementId"));
 
-        tableView.getColumns().addAll(firstNameCol, lastNameCol, salaryCol);
+        tableView.getColumns().addAll(idCol, firstNameCol, lastNameCol, salaryCol);
 
     }
 
