@@ -4,6 +4,11 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Employee {
     private final IntegerProperty id;
     private final StringProperty firstName;
@@ -38,13 +43,30 @@ public class Employee {
     public IntegerProperty departmentIdProperty() {
         return departmentId;
     }
-    public static ObservableList<Employee> getAllEmployees(){
-        ObservableList<Employee> employeeData = FXCollections.observableArrayList(
-                new Employee(1, "John", "Doe", 60000.00, 101),
-                new Employee(2, "Jane", "Smith", 75000.00, 102),
-                new Employee(3, "Peter", "Jones", 85000.00, 101)
-        );
+
+    public static ObservableList<Employee> getAllEmployees() {
+        ObservableList<Employee> employeeData = FXCollections.observableArrayList();
+
+        String query = "SELECT Id, last_name, first_name, salary, id_departement FROM employee";
+
+        try (Connection conn = database.ConnectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                int id = rs.getInt("Id");
+                String lastName = rs.getString("last_name");   // corrected
+                String firstName = rs.getString("first_name"); // corrected
+                double salary = rs.getDouble("salary");
+                int departmentId = rs.getInt("id_departement");
+
+                employeeData.add(new Employee(id, firstName, lastName, salary, departmentId));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return employeeData;
     }
-
 }
