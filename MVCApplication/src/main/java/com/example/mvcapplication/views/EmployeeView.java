@@ -3,6 +3,9 @@ package com.example.mvcapplication.views;
 
 import com.example.mvcapplication.controllers.EmployeeController;
 import com.example.mvcapplication.models.Employee;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
@@ -23,17 +26,37 @@ public class EmployeeView extends VBox {
     }
     private void createSearchBar(){
         //label
-        Label searchlabel = new Label("search bar");
+        Label searchlabel = new Label("First Name");
         this.getChildren().add(searchlabel);
         //TextField
         TextField searchTextField = new TextField();
         this.getChildren().add(searchTextField);
         //Button
-
         Button searchBtn = new Button("Search");
         HBox searchbox = new HBox(10);
         searchbox.getChildren().addAll(searchlabel,searchTextField, searchBtn);
         this.getChildren().add(searchbox);
+
+        searchBtn.setOnAction(event ->{
+            String firstName = searchTextField.getText();
+            if (firstName == null) firstName = "";
+
+            ObservableList<Employee> searchFirstName = FXCollections.observableArrayList();
+
+            for (Employee emp : controller.getEmployees()) {
+                String empName = String.valueOf(emp.firstNameProperty().get());
+                if (empName.equalsIgnoreCase(firstName)) {
+                    searchFirstName.add(emp);
+                    tableView.setItems(searchFirstName);
+                    break;
+                }
+                tableView.setItems(controller.getEmployees());
+            }
+
+
+            
+        });
+
     }
 
 

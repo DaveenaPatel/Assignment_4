@@ -24,6 +24,7 @@ public class Employee {
         this.departmentId = new SimpleIntegerProperty(departmentId);
     }
 
+
     public IntegerProperty idProperty() {
         return id;
     }

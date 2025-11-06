@@ -13,5 +13,6 @@ public class EmployeeController {
     public ObservableList<Employee> getEmployees() {
         return Employee.getAllEmployees();
     }
-
 }
+
+
