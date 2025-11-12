@@ -39,11 +39,27 @@ public class Employee {
         return departmentId;
     }
     public static ObservableList<Employee> getAllEmployees(){
-        ObservableList<Employee> employeeData = FXCollections.observableArrayList(
-                new Employee(1, "John", "Doe", 60000.00, 101),
-                new Employee(2, "Jane", "Smith", 75000.00, 102),
-                new Employee(3, "Peter", "Jones", 85000.00, 101)
-        );
+        ObservableList<Employee> employeeData = FXCollections.observableArrayList();
+        String spl = "SELECT * FROM employee";
+
+        try(Connection conn = ConnectionManager.getConnection();
+            PreparedStatement pstm = conn.prepareStatement(spl);) {
+            ResultSet rs = pstm.executeQuery();
+
+            while(rs.next()){
+                int eId = rs.getInt("id");
+                String firstName = rs.getString("firstName");
+                String lastName = rs.getString("lastName");
+                double salary = rs.getDouble("salary");
+                int dId = rs.getInt("departmentId");
+                Employee employee = new Employee(eId, firstName, lastName, salary, dId);
+                employeeData.add(employee);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         return employeeData;
     }
 
