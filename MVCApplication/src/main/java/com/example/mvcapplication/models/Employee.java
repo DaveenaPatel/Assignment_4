@@ -1,5 +1,6 @@
 package com.example.mvcapplication.models;
 
+import database.ConnectionManager;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
