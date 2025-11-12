@@ -15,6 +15,7 @@ public class EmployeeView extends VBox {
     public EmployeeView(EmployeeController controller) {
         this.controller = controller;
         this.tableView = new TableView<>();
+        this.createSearchBar();
         this.createTable();
         this.getChildren().add(tableView);
         this.bindTableData();
