@@ -20,6 +20,36 @@ public class EmployeeView extends VBox {
         this.bindTableData();
     }
 
+    private void createSearchBar(){
+        Label searchlabel = new Label("First Name");
+        this.getChildren().add(searchlabel);
+
+        TextField searchTextField = new TextField();
+        this.getChildren().add(searchTextField);
+
+        Button searchBtn = new Button("Search");
+        HBox searchbox = new HBox(10);
+        searchbox.getChildren().addAll(searchlabel,searchTextField, searchBtn);
+        this.getChildren().add(searchbox);
+
+        searchBtn.setOnAction(event ->{
+            String firstName = searchTextField.getText();
+            if (firstName == null) firstName = "";
+
+            ObservableList<Employee> searchFirstName = FXCollections.observableArrayList();
+
+            for (Employee emp : controller.getEmployees()) {
+                String empName = String.valueOf(emp.firstNameProperty().get());
+                if (empName.equalsIgnoreCase(firstName)) {
+                    searchFirstName.add(emp);
+                    tableView.setItems(searchFirstName);
+                    break;
+                }
+                tableView.setItems(controller.getEmployees());
+            }
+        });
+    }
+
     private void createTable() {
         TableColumn<Employee, String> firstNameCol = new TableColumn<>("First Name");
         firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
