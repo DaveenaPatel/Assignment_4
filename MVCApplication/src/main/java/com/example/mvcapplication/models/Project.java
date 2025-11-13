@@ -25,7 +25,7 @@ public class Project {
     public IntegerProperty idProperty() {
         return id;
     }
-    public StringProperty firstNameProperty() {
+    public StringProperty nameProperty() {
         return name;
     }
 
@@ -38,7 +38,7 @@ public class Project {
             ResultSet rs = pstm.executeQuery();
 
             while(rs.next()){
-                int id = rs.getInt("proejctId");
+                int id = rs.getInt("Id");
                 String name = rs.getString("name");
 
                 Project project = new Project(id, name);

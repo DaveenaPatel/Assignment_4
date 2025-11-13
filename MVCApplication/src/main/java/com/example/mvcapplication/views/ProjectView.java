@@ -23,7 +23,7 @@ public class ProjectView extends VBox {
         TableColumn<Project, Integer> idCol = new TableColumn<>("Project Id");
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-        TableColumn<Project, String> nameCol = new TableColumn<>("Project Name");
+        TableColumn<Project, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         tableView.getColumns().addAll(idCol, nameCol);
