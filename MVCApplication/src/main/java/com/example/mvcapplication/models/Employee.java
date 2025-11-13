@@ -1,5 +1,6 @@
 package com.example.mvcapplication.models;
 
+import database.ConnectionManager;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +25,6 @@ public class Employee {
         this.departmentId = new SimpleIntegerProperty(departmentId);
     }
 
-
     public IntegerProperty idProperty() {
         return id;
     }
@@ -44,30 +44,29 @@ public class Employee {
     public IntegerProperty departmentIdProperty() {
         return departmentId;
     }
-
-    public static ObservableList<Employee> getAllEmployees() {
+    public static ObservableList<Employee> getAllEmployees(){
         ObservableList<Employee> employeeData = FXCollections.observableArrayList();
+        String spl = "SELECT * FROM employee";
 
-        String query = "SELECT Id, last_name, first_name, salary, id_departement FROM employee";
+        try(Connection conn = ConnectionManager.getConnection();
+            PreparedStatement pstm = conn.prepareStatement(spl);) {
+            ResultSet rs = pstm.executeQuery();
 
-        try (Connection conn = database.ConnectionManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                int id = rs.getInt("Id");
-                String lastName = rs.getString("last_name");   // corrected
-                String firstName = rs.getString("first_name"); // corrected
+            while(rs.next()){
+                int eId = rs.getInt("id");
+                String firstName = rs.getString("firstName");
+                String lastName = rs.getString("lastName");
                 double salary = rs.getDouble("salary");
-                int departmentId = rs.getInt("id_departement");
-
-                employeeData.add(new Employee(id, firstName, lastName, salary, departmentId));
+                int dId = rs.getInt("departmentId");
+                Employee employee = new Employee(eId, firstName, lastName, salary, dId);
+                employeeData.add(employee);
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
         return employeeData;
     }
+
 }

@@ -3,7 +3,6 @@ package com.example.mvcapplication.views;
 
 import com.example.mvcapplication.controllers.EmployeeController;
 import com.example.mvcapplication.models.Employee;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -22,16 +21,15 @@ public class EmployeeView extends VBox {
         this.createTable();
         this.getChildren().add(tableView);
         this.bindTableData();
-
     }
+
     private void createSearchBar(){
-        //label
         Label searchlabel = new Label("First Name");
         this.getChildren().add(searchlabel);
-        //TextField
+
         TextField searchTextField = new TextField();
         this.getChildren().add(searchTextField);
-        //Button
+
         Button searchBtn = new Button("Search");
         HBox searchbox = new HBox(10);
         searchbox.getChildren().addAll(searchlabel,searchTextField, searchBtn);
@@ -52,17 +50,10 @@ public class EmployeeView extends VBox {
                 }
                 tableView.setItems(controller.getEmployees());
             }
-
-
-            
         });
-
     }
 
-
     private void createTable() {
-        TableColumn<Employee, Integer> idCol = new TableColumn<>("Id");
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         TableColumn<Employee, String> firstNameCol = new TableColumn<>("First Name");
         firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 
@@ -71,10 +62,8 @@ public class EmployeeView extends VBox {
 
         TableColumn<Employee, Double> salaryCol = new TableColumn<>("Salary");
         salaryCol.setCellValueFactory(new PropertyValueFactory<>("salary"));
-        TableColumn<Employee, Integer> departementIdCol = new TableColumn<>("Departement Id");
-        departementIdCol.setCellValueFactory(new PropertyValueFactory<>("departementId"));
 
-        tableView.getColumns().addAll(idCol, firstNameCol, lastNameCol, salaryCol);
+        tableView.getColumns().addAll(firstNameCol, lastNameCol, salaryCol);
 
     }
 
