@@ -1,6 +1,8 @@
 package com.example.mvcapplication;
 
+import com.example.mvcapplication.controllers.DepartmentController;
 import com.example.mvcapplication.controllers.EmployeeController;
+import com.example.mvcapplication.views.DepartmentView;
 import com.example.mvcapplication.views.EmployeeView;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +21,19 @@ public class HelloApplication extends Application {
         stage.setTitle("Employee Table (MVC)");
         stage.setScene(scene);
         stage.show();
+
+        Stage stage2 = new Stage();
+        DepartmentController Depcontroller = new DepartmentController();
+        DepartmentView DepView = new DepartmentView(Depcontroller);
+        Scene scene2 = new Scene(DepView, 300, 300);
+        stage2.setTitle("Department");
+        stage2.setScene(scene2);
+        stage2.show();
+
+
     }
+
+
 
     public static void main(String[] args) {
         launch();
