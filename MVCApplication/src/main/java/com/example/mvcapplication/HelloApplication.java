@@ -28,7 +28,7 @@ public class HelloApplication extends Application {
         DepartmentController Depcontroller = new DepartmentController();
         DepartmentView DepView = new DepartmentView(Depcontroller);
         Scene scene2 = new Scene(DepView, 300, 300);
-        stage2.setTitle("Department");
+        stage2.setTitle("Department Table");
         stage2.setScene(scene2);
         stage2.show();
 
@@ -36,7 +36,7 @@ public class HelloApplication extends Application {
         ProjectController prContoller = new ProjectController();
         ProjectView PrView = new ProjectView(prContoller);
         Scene scene3 = new Scene(PrView, 400, 400);
-        stage3.setTitle("Department");
+        stage3.setTitle("Project Table");
         stage3.setScene(scene3);
         stage3.show();
 
